@@ -3,7 +3,11 @@
     <form #form="ngForm" ngNativeValidate>
         <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" id="name" name="name" class="form-control" placeholder="Name" [(ngModel)]="userSettings.name" required/>
+            <input type="text" id="name" name="name" class="form-control" placeholder="Name" [(ngModel)]="userSettings.name" required
+            #nameField="ngModel"/>
+        </div>
+        <div [hidden]="nameField.valid || nameField.untouched" class="alert alert-danger">
+            Enter a name
         </div>
         <div class="form-check form-group">
             <input class="form-check-input" type="checkbox" value="" id="emailOffers" name="emailOffers" [(ngModel)]="userSettings.emailOffers">
