@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { UserSettings } from '../data/user-settings';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'lf-user-settings-form',
@@ -18,4 +19,8 @@ export class UserSettingsFormComponent {
   };
 
   userSettings: UserSettings = { ...this.originalUserSettings };
+
+  onSubmit(form: NgForm): void {
+    console.log(form.submitted + ': ' + form.valid);
+  }
 }
