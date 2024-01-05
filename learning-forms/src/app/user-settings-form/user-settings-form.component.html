@@ -4,7 +4,7 @@
         <div class="form-group">
             <label for="name">Name</label>
             <input type="text" id="name" name="name" class="form-control" placeholder="Name" [(ngModel)]="userSettings.name" required
-            #nameField="ngModel" [class.field-error]="form.submitted && nameField.invalid"/>
+            #nameField="ngModel" [class.field-error]="form.submitted && nameField.invalid" (blur)="onBlur(nameField)"/>
         </div>
         <div [hidden]="!form.submitted || nameField.valid" class="alert alert-danger">
             Enter a name
@@ -40,7 +40,7 @@
 
         <div class="form-group">
             <label for="subscriptionType">Subscription Type</label>
-            <select class="form-select" id="subscriptionType" [(ngModel)]="userSettings.subscriptionType">
+            <select class="form-select" id="subscriptionType" name="subscriptionType" [(ngModel)]="userSettings.subscriptionType">
                 <option>Monthly</option>
                 <option>Annual</option>
                 <option>Lifetime</option>

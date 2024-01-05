@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { UserSettings } from '../data/user-settings';
-import { NgForm } from '@angular/forms';
+import { NgForm, NgModel } from '@angular/forms';
 
 @Component({
   selector: 'lf-user-settings-form',
@@ -22,5 +22,9 @@ export class UserSettingsFormComponent {
 
   onSubmit(form: NgForm): void {
     console.log(form.submitted + ': ' + form.valid);
+  }
+
+  onBlur(field: NgModel) {
+    console.log('in on blur: ' + field.valid);
   }
 }
