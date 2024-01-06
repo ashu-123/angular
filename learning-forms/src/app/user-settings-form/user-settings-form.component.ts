@@ -19,16 +19,31 @@ export class UserSettingsFormComponent {
 
   };
 
+  postError = false;
+  postErrorMessage = '';
+
   userSettings: UserSettings = { ...this.originalUserSettings };
 
   constructor(private dataService: DataService) { }
 
   onSubmit(form: NgForm): void {
     console.log(form.submitted + ': ' + form.valid);
+    if(form.valid) {
     this.dataService.postUserSettings(this.userSettings).subscribe(
       result => console.log('success ' + JSON.stringify(result)),
-      err => console.error('error ' + err)
+      err => this.onError(err)
     );
+    }
+    else {
+      this.postError = true;
+      this.postErrorMessage = 'Please fix the above errors';
+    }
+  }
+
+  onError(errorResponse: any): void {
+    console.log(JSON.stringify(errorResponse));
+    this.postError = true;
+    this.postErrorMessage = errorResponse.error;
   }
 
   onBlur(field: NgModel) {
