@@ -22,9 +22,9 @@
             </label>
         </div>
         <div class="form-group">
-            <input type="text" placeholder="Datepicker" class="form-control" bsDaterangepicker name="startDate" id="startDate"
-            [(ngModel)]="startDate"
-                [bsConfig]="{ isAnimated: true }">
+            <label for="startDate">Start Date</label>
+            <input type="text" placeholder="Datepicker" class="form-control" bsDaterangepicker name="startDate"
+                id="startDate" [(ngModel)]="startDate" [bsConfig]="{ isAnimated: true }">
         </div>
         Start Date: {{startDate}}
         <p>User Interface Styles</p>
