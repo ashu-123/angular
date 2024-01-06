@@ -3,35 +3,57 @@
     <form #form="ngForm" (ngSubmit)="onSubmit(form)">
         <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" id="name" name="name" class="form-control" placeholder="Name" [(ngModel)]="userSettings.name" required
-            #nameField="ngModel" [class.field-error]="form.submitted && nameField.invalid" (blur)="onBlur(nameField)"/>
+            <input type="text" id="name" name="name" class="form-control" placeholder="Name"
+                [(ngModel)]="userSettings.name" required #nameField="ngModel"
+                [class.field-error]="form.submitted && nameField.invalid" (blur)="onBlur(nameField)" />
         </div>
+        <button type="button" class="btn btn-primary" name="singleModel" [(ngModel)]="singleModel" btnCheckbox
+            btnCheckboxTrue="On" btnCheckboxFalse="Off">
+            {{singleModel}}
+        </button>
         <div [hidden]="!form.submitted || nameField.valid" class="alert alert-danger">
             Enter a name
         </div>
         <div class="form-check form-group">
-            <input class="form-check-input" type="checkbox" value="" id="emailOffers" name="emailOffers" [(ngModel)]="userSettings.emailOffers">
+            <input class="form-check-input" type="checkbox" value="" id="emailOffers" name="emailOffers"
+                [(ngModel)]="userSettings.emailOffers">
             <label class="form-check-label" for="emailOffers">
                 Email Special offers
             </label>
         </div>
-
+        <div class="form-group">
+            <input type="text" placeholder="Datepicker" class="form-control" bsDaterangepicker name="startDate" id="startDate"
+            [(ngModel)]="startDate"
+                [bsConfig]="{ isAnimated: true }">
+        </div>
+        Start Date: {{startDate}}
         <p>User Interface Styles</p>
         <div class="form-group">
+            <div class="btn-group">
+                <label class="btn btn-success mb-0" [(ngModel)]="userSettings.interfaceStyle" name="interfaceStyle"
+                    btnRadio="Light" tabindex="0" role="button">Light</label>
+                <label class="btn btn-success mb-0" [(ngModel)]="userSettings.interfaceStyle" name="interfaceStyle"
+                    btnRadio="Medium" tabindex="0" role="button">Medium</label>
+                <label class="btn btn-success mb-0" [(ngModel)]="userSettings.interfaceStyle" name="interfaceStyle"
+                    btnRadio="Dark" tabindex="0" role="button">Dark</label>
+            </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="interfaceStyle" id="lightInterface" value="light" [(ngModel)]="userSettings.interfaceStyle">
+                <input class="form-check-input" type="radio" name="interfaceStyle" id="lightInterface" value="light"
+                    [(ngModel)]="userSettings.interfaceStyle">
                 <label class="form-check-label" for="lightInterface">
                     Light
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="interfaceStyle" id="mediumInterface" value="medium" [(ngModel)]="userSettings.interfaceStyle">
+                <input class="form-check-input" type="radio" name="interfaceStyle" id="mediumInterface" value="medium"
+                    [(ngModel)]="userSettings.interfaceStyle">
                 <label class="form-check-label" for="mediumInterface">
                     Medium
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="interfaceStyle" id="darkInterface" value="dark" [(ngModel)]="userSettings.interfaceStyle">
+                <input class="form-check-input" type="radio" name="interfaceStyle" id="darkInterface" value="dark"
+                    [(ngModel)]="userSettings.interfaceStyle">
                 <label class="form-check-label" for="darkInterface">
                     Dark
                 </label>
@@ -40,9 +62,10 @@
 
         <div class="form-group">
             <label for="subscriptionType">Subscription Type</label>
-            <select class="form-select" id="subscriptionType" name="subscriptionType" [(ngModel)]="userSettings.subscriptionType">
+            <select class="form-select" id="subscriptionType" name="subscriptionType"
+                [(ngModel)]="userSettings.subscriptionType">
                 <option *ngFor="let type of subscriptionTypes | async">{{type}}</option>
-              </select>
+            </select>
         </div>
 
         <div class="form-group">

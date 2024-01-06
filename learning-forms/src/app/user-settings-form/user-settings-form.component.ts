@@ -22,6 +22,8 @@ export class UserSettingsFormComponent implements OnInit {
 
   postError = false;
   postErrorMessage = '';
+  singleModel: string = "On";
+  startDate = new Date();
   subscriptionTypes!: Observable<string[]>;
 
   userSettings: UserSettings = { ...this.originalUserSettings };
@@ -33,7 +35,7 @@ export class UserSettingsFormComponent implements OnInit {
   }
 
   onSubmit(form: NgForm): void {
-    console.log(form.submitted + ': ' + form.valid);
+    console.log(form.submitted + ': ' + JSON.stringify(form.value));
     if(form.valid) {
     this.dataService.postUserSettings(this.userSettings).subscribe(
       result => console.log('success ' + JSON.stringify(result)),
