@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { UserSettings } from '../data/user-settings';
 import { NgForm, NgModel } from '@angular/forms';
+import { DataService } from '../data/data.service';
 
 @Component({
   selector: 'lf-user-settings-form',
@@ -20,8 +21,14 @@ export class UserSettingsFormComponent {
 
   userSettings: UserSettings = { ...this.originalUserSettings };
 
+  constructor(private dataService: DataService) { }
+
   onSubmit(form: NgForm): void {
     console.log(form.submitted + ': ' + form.valid);
+    this.dataService.postUserSettings(this.userSettings).subscribe(
+      result => console.log('success ' + JSON.stringify(result)),
+      err => console.error('error ' + err)
+    );
   }
 
   onBlur(field: NgModel) {
