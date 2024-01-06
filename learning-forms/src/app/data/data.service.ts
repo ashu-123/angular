@@ -13,4 +13,8 @@ export class DataService {
   postUserSettings(userSettings: UserSettings): Observable<UserSettings> {
     return this.http.post<UserSettings>('https://putsreq.com/hK5CZUnWLa5nmKbBbADV', userSettings);
   }
+
+  getSubscriptionTypes(): Observable<string[]> {
+    return of(['one', 'two', 'three']);
+  }
 }

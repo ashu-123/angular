@@ -1,14 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserSettings } from '../data/user-settings';
 import { NgForm, NgModel } from '@angular/forms';
 import { DataService } from '../data/data.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'lf-user-settings-form',
   templateUrl: './user-settings-form.component.html',
   styleUrl: './user-settings-form.component.css'
 })
-export class UserSettingsFormComponent {
+export class UserSettingsFormComponent implements OnInit {
 
   originalUserSettings: UserSettings = {
     name: "",
@@ -21,10 +22,15 @@ export class UserSettingsFormComponent {
 
   postError = false;
   postErrorMessage = '';
+  subscriptionTypes!: Observable<string[]>;
 
   userSettings: UserSettings = { ...this.originalUserSettings };
 
   constructor(private dataService: DataService) { }
+
+  ngOnInit(): void {
+    this.subscriptionTypes = this.dataService.getSubscriptionTypes();
+  }
 
   onSubmit(form: NgForm): void {
     console.log(form.submitted + ': ' + form.valid);
