@@ -14,7 +14,11 @@ export class ProductEditComponent implements OnInit {
   pageTitle = 'Product Edit';
   errorMessage: string | undefined = '';
 
-  product: Product | null = null;
+  // product: Product | null = null;
+
+  private currentProduct: Product | null = null;
+  private originalProduct: Product | null = null;
+
   private dataIsValid: { [key: string]: boolean } = {};
 
   constructor(private productService: ProductService,
@@ -22,6 +26,16 @@ export class ProductEditComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router) { }
 
+  get product(): Product | null {
+    return this.currentProduct;
+  }
+
+  set product(value: Product | null) {
+    this.currentProduct = value;
+    if(value)
+    this.originalProduct = { ...value};
+  }
+    
   ngOnInit(): void {
     this.route.data.subscribe(
       data => {
@@ -37,6 +51,10 @@ export class ProductEditComponent implements OnInit {
       next: product => this.onProductRetrieved(product),
       error: err => this.errorMessage = err
     });
+  }
+
+  get isDirty(): boolean {
+    return JSON.stringify(this.originalProduct) !== JSON.stringify(this.currentProduct);
   }
 
   onProductRetrieved(product: Product): void {
@@ -90,7 +108,7 @@ export class ProductEditComponent implements OnInit {
     if (message) {
       this.messageService.addMessage(message);
     }
-
+    this.reset();
     // Navigate back to the product list
     this.router.navigateByUrl('/products');
   }
@@ -125,5 +143,10 @@ export class ProductEditComponent implements OnInit {
     else {
       this.dataIsValid['tags'] = false;
     }
+  }
+
+  reset(): void {
+    this.originalProduct = this.currentProduct;
+    this.dataIsValid = { };
   }
 }
