@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1024, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/oidc-client.min.js"></script>
+</head>
+<body>
+    <script>
+        const stsSettings = {
+            authority: "https://securingangularappscoursev3-sts.azurewebsites.net/",
+            client_id: "spa-client",
+            response_type: "code",
+            scope: "openid profile projects-api",
+        }
+        new Oidc.UserManager(stsSettings).signinSilentCallback().catch(error => console.error(error));
+    </script>
+</body>
+</html>
