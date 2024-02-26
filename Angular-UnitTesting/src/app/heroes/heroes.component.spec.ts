@@ -5,6 +5,7 @@ import { Hero } from "../hero";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { Component, Input, NO_ERRORS_SCHEMA } from "@angular/core";
 import { By } from "@angular/platform-browser";
+import { HeroComponent } from "../hero/hero.component";
 
 describe('Heroes Component', () => {
 
@@ -38,9 +39,9 @@ describe('Heroes Component', () => {
             expect(heroService.deleteHero).toHaveBeenCalledOnceWith(HEROES[1]);
         })
     })
-})
+});
 
-describe('Heroes Component Shallow Tests', () => {
+describe('Heroes Component Shallow Integration Tests', () => {
     let fixture: ComponentFixture<HeroesComponent>;
     let heroService;
     let HEROES: Hero[];
@@ -87,4 +88,42 @@ describe('Heroes Component Shallow Tests', () => {
 
         expect(fixture.debugElement.queryAll(By.css('li')).length).toEqual(3);
     })
-})
+});
+
+describe('Heroes Component Deep Integration Tests', () => {
+    let fixture: ComponentFixture<HeroesComponent>;
+    let heroService;
+    let HEROES: Hero[];
+
+    beforeEach(() => {
+
+        HEROES = [
+            { id: 1, name: 'Spider Hero', strength: 5 },
+            { id: 2, name: 'Web Hero', strength: 5 },
+            { id: 3, name: 'Dark Hero', strength: 15 }
+        ];
+
+        heroService = jasmine.createSpyObj(['getHeroes', 'addHero', 'deleteHero']);
+        TestBed.configureTestingModule({
+            declarations: [ HeroesComponent, HeroComponent ],
+            schemas: [NO_ERRORS_SCHEMA],
+            providers: [
+                { provide: HeroService, useValue: heroService }
+            ]
+        });
+        fixture = TestBed.createComponent(HeroesComponent);
+    })
+
+    it('should render hero components correctly', () => {
+
+        heroService.getHeroes.and.returnValue(of(HEROES));
+        fixture.detectChanges();
+
+        const heroComponentsRendered = fixture.debugElement.queryAll(By.directive(HeroComponent));
+        expect(heroComponentsRendered.length).toEqual(3);
+        for(let i=0;i<HEROES.length;i++) {
+        expect(heroComponentsRendered[i].componentInstance.hero).toEqual(HEROES[i]);
+        }
+    })
+
+});
