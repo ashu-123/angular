@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { FormControl, FormGroup } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ContactsService } from '../contacts/contacts.service';
 
 @Component({
@@ -9,29 +9,34 @@ import { ContactsService } from '../contacts/contacts.service';
 })
 export class EditContactComponent implements OnInit {
 
-  firstName = new FormControl();
-  lastName = new FormControl();
-  dateOfBirth = new FormControl();
-  favouritesRanking = new FormControl();
-  constructor(private route: ActivatedRoute, private contactsService: ContactsService) { }
+  contactForm = new FormGroup({
+    id: new FormControl(),
+    firstName: new FormControl(),
+    lastName: new FormControl(),
+    dateOfBirth: new FormControl(),
+    favouritesRanking: new FormControl()
+  });
+
+  constructor(private route: ActivatedRoute, private contactsService: ContactsService, private router: Router) { }
 
   ngOnInit() {
     const contactId = this.route.snapshot.params['id'];
     if (!contactId) return;
 
     this.contactsService.getContact(contactId).subscribe(contact => {
-      this.firstName.setValue(contact?.firstName);
-      this.lastName.setValue(contact?.lastName);
-      this.dateOfBirth.setValue(contact?.dateOfBirth);
-      this.favouritesRanking.setValue(contact?.favoritesRanking);
+      this.contactForm.controls.id.setValue(contact?.id);
+      this.contactForm.controls.firstName.setValue(contact?.firstName);
+      this.contactForm.controls.lastName.setValue(contact?.lastName);
+      this.contactForm.controls.dateOfBirth.setValue(contact?.dateOfBirth);
+      this.contactForm.controls.favouritesRanking.setValue(contact?.favoritesRanking);
     })
   }
 
   saveContact() {
-    console.log(this.firstName.value);
-    console.log(this.lastName.value);
-    console.log(this.dateOfBirth.value);
-    console.log(this.favouritesRanking.value);
+    console.log(this.contactForm.value);
 
+    this.contactsService.saveContact(this.contactForm.value).subscribe(contact => {
+      this.router.navigate(['/contacts']);
+    })
   }
 }
