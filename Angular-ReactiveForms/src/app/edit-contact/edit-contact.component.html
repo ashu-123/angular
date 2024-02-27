@@ -9,7 +9,15 @@
         <input formControlName="firstName" placeholder="First Name" />
         <input formControlName="lastName" placeholder="Last Name" />
         <input formControlName="dateOfBirth" placeholder="Date of Birth" />
-        <input formControlName="favoritesRanking" placeholder="Favorites Ranking" />
+        <!-- <input formControlName="favoritesRanking" type='number' placeholder="Favorites Ranking" /> -->
+        <div>
+          <span>Favorites ranking</span>
+          <input type="range" formControlName="favoritesRanking" min="0" max="5" placeholder="Favorites Ranking"/>
+          <span>{{contactForm.controls.favoritesRanking.value}}</span>
+        </div>
+        <div>
+          <input type="checkbox" name="personal" formControlName="personal" />Personal
+        </div>
       </div>
     </section>
     <section>
