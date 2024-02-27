@@ -14,7 +14,7 @@ export class EditContactComponent implements OnInit {
     id: '',
     firstName: '',
     lastName: '',
-    dateOfBirth: <Date | null> null,
+    dateOfBirth: '',
     favoritesRanking: <number | null> null,
     personal: false,
     phone: this.formBuilder.nonNullable.group({
@@ -27,7 +27,8 @@ export class EditContactComponent implements OnInit {
       state: '',
       postalCode: '',
       addressType: ''
-    })
+    }),
+    notes: ''
   });
 
   phoneTypes = phoneTypes;
