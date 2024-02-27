@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContactsService } from '../contacts/contacts.service';
 import { phoneTypes, addressTypes } from '../contacts/contact.model';
@@ -12,7 +12,7 @@ export class EditContactComponent implements OnInit {
 
   contactForm = this.formBuilder.nonNullable.group({
     id: '',
-    firstName: '',
+    firstName: ['', [Validators.required]],
     lastName: '',
     dateOfBirth: '',
     favoritesRanking: <number | null> null,
@@ -50,6 +50,10 @@ export class EditContactComponent implements OnInit {
       // this.contactForm.patchValue(patchValue);
         this.contactForm.setValue(contact);
     })
+  }
+
+  get firstName() {
+    return this.contactForm.controls.firstName;
   }
 
   saveContact() {
