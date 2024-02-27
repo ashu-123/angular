@@ -12,7 +12,7 @@ export class EditContactComponent implements OnInit {
 
   contactForm = this.formBuilder.nonNullable.group({
     id: '',
-    firstName: ['', [Validators.required]],
+    firstName: ['', [Validators.required, Validators.minLength(3)]],
     lastName: '',
     dateOfBirth: '',
     favoritesRanking: <number | null> null,
