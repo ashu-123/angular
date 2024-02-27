@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, fakeAsync, flush, tick, waitForAsync } from "@angular/core/testing";
 import { HeroService } from "../hero.service";
 import { ActivatedRoute, ActivatedRouteSnapshot } from "@angular/router";
 import { Location } from '@angular/common';
@@ -41,5 +41,33 @@ describe('HeroDetailComponent', () => {
         fixture.detectChanges();
 
         expect(fixture.nativeElement.querySelector('h2').textContent).toContain('SUPER DUDE');
-    })
+    });
+
+    // it('should call the update hero when save is called (async test)', fakeAsync(() => {
+    //     heroService.updateHero.and.returnValue(of({}));
+    //     fixture.detectChanges();
+
+    //     fixture.componentInstance.save();
+    //     // tick(260);
+    //     flush();
+    //     // setTimeout(() => {
+    //     //     expect(heroService.updateHero).toHaveBeenCalled();
+    //     //     done();
+    //     // }, 300)
+
+    //     expect(heroService.updateHero).toHaveBeenCalled();
+
+        
+    // }))
+
+    it('should call the update hero when save is called (async test)', waitForAsync(() => {
+        heroService.updateHero.and.returnValue(of({}));
+        fixture.detectChanges();
+
+        fixture.componentInstance.save();
+        fixture.whenStable().then(() => {
+            expect(heroService.updateHero).toHaveBeenCalled();
+        });
+        
+    }))
 })
