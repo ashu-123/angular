@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContactsService } from '../contacts/contacts.service';
-import { phoneTypes } from '../contacts/contact.model';
+import { phoneTypes, addressTypes } from '../contacts/contact.model';
 
 @Component({
   templateUrl: './edit-contact.component.html',
@@ -30,6 +30,7 @@ export class EditContactComponent implements OnInit {
   });
 
   phoneTypes = phoneTypes;
+  addressTypes = addressTypes;
 
   constructor(private route: ActivatedRoute,
     private contactsService: ContactsService,

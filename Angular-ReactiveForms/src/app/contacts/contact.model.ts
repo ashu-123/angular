@@ -22,7 +22,13 @@ export interface Address {
 }
 
 export const phoneTypes = [
-  { title: 'Mobile', value: 'mobile'},
-  { title: 'Work', value: 'work'},
-  { title: 'Other', value: 'other'}
+  { title: 'Mobile', value: 'mobile' },
+  { title: 'Work', value: 'work' },
+  { title: 'Other', value: 'other' }
+];
+
+export const addressTypes = [
+  { title: 'Home', value: 'home' },
+  { title: 'Work', value: 'work' },
+  { title: 'Other', value: 'other' }
 ]
