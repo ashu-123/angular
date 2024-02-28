@@ -5,6 +5,7 @@ import { ContactsService } from '../contacts/contacts.service';
 import { phoneTypes, addressTypes } from '../contacts/contact.model';
 
 import { restrictedWordsValidator } from '../validators/restricted-words.validator';
+import { distinctUntilChanged } from 'rxjs';
 
 @Component({
   templateUrl: './edit-contact.component.html',
@@ -17,8 +18,8 @@ export class EditContactComponent implements OnInit {
     icon: '',
     firstName: ['', [Validators.required, Validators.minLength(3)]],
     lastName: '',
-    dateOfBirth: <Date | null> null,
-    favoritesRanking: <number | null> null,
+    dateOfBirth: <Date | null>null,
+    favoritesRanking: <number | null>null,
     personal: false,
     phones: this.formBuilder.array([this.createPhoneNumberFormGroup()]),
     address: this.formBuilder.nonNullable.group({
@@ -49,10 +50,10 @@ export class EditContactComponent implements OnInit {
       // let patchValue = { firstName: 'Ashu', lastName: 'Mishra' };
       // this.contactForm.patchValue(patchValue);
 
-      for(let i=1;i<contact.phones.length;i++) {
+      for (let i = 1; i < contact.phones.length; i++) {
         this.addPhone();
       }
-        this.contactForm.setValue(contact);
+      this.contactForm.setValue(contact);
     })
   }
 
@@ -73,10 +74,25 @@ export class EditContactComponent implements OnInit {
   }
 
   createPhoneNumberFormGroup() {
-    return this.formBuilder.nonNullable.group({
+    const phoneFormGroup = this.formBuilder.nonNullable.group({
       phoneNumber: '',
-      phoneType: ''
+      phoneType: '',
+      preferred: false
     });
+
+    phoneFormGroup.controls.preferred.valueChanges
+      .pipe(distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)))
+      .subscribe(value => {
+        if (value) {
+          phoneFormGroup.controls.phoneNumber.addValidators([Validators.required]);
+        }
+        else {
+          phoneFormGroup.controls.phoneNumber.removeValidators([Validators.required]);
+          phoneFormGroup.controls.phoneNumber.updateValueAndValidity();
+        }
+      })
+
+    return phoneFFormGroup;
   }
 
   addPhone() {
