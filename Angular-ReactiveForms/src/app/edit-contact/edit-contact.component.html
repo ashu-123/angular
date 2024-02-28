@@ -57,9 +57,10 @@
     <section>
       <nav>Notes</nav>
       <div>
-        <textarea name="notes" rows="5" formControlName="notes" placeholder="notes"></textarea>
+        <textarea name="notes" rows="5" formControlName="notes" placeholder="notes" [class.error]="notes.errors?.['restrictedWords']"></textarea>
       </div>
     </section>
+    <em *ngIf="notes.errors?.['restrictedWords']">Restricited words found: {{notes.errors?.['restrictedWords']}}</em>
     <div class="buttons">
       <button class="secondary">Cancel</button>
       <button class="primary" type="submit" [disabled]="contactForm.invalid">Save</button>
