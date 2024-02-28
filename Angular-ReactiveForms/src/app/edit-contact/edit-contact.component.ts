@@ -20,10 +20,7 @@ export class EditContactComponent implements OnInit {
     dateOfBirth: <Date | null> null,
     favoritesRanking: <number | null> null,
     personal: false,
-    phone: this.formBuilder.nonNullable.group({
-      phoneNumber: '',
-      phoneType: ''
-    }),
+    phones: this.formBuilder.array([this.createPhoneNumberFormGroup()]),
     address: this.formBuilder.nonNullable.group({
       streetAddress: ['', [Validators.required]],
       city: ['', [Validators.required]],
@@ -51,6 +48,10 @@ export class EditContactComponent implements OnInit {
 
       // let patchValue = { firstName: 'Ashu', lastName: 'Mishra' };
       // this.contactForm.patchValue(patchValue);
+
+      for(let i=1;i<contact.phones.length;i++) {
+        this.addPhone();
+      }
         this.contactForm.setValue(contact);
     })
   }
@@ -69,5 +70,16 @@ export class EditContactComponent implements OnInit {
     this.contactsService.saveContact(this.contactForm.getRawValue()).subscribe(contact => {
       this.router.navigate(['/contacts']);
     })
+  }
+
+  createPhoneNumberFormGroup() {
+    return this.formBuilder.nonNullable.group({
+      phoneNumber: '',
+      phoneType: ''
+    });
+  }
+
+  addPhone() {
+    this.contactForm.controls.phones.push(this.createPhoneNumberFormGroup());
   }
 }
