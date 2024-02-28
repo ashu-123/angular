@@ -92,7 +92,7 @@ export class EditContactComponent implements OnInit {
         }
       })
 
-    return phoneFFormGroup;
+    return phoneFormGroup;
   }
 
   addPhone() {
