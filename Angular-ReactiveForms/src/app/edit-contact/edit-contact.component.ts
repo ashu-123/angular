@@ -5,7 +5,7 @@ import { ContactsService } from '../contacts/contacts.service';
 import { phoneTypes, addressTypes } from '../contacts/contact.model';
 
 import { restrictedWordsValidator } from '../validators/restricted-words.validator';
-import { distinctUntilChanged } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   templateUrl: './edit-contact.component.html',
@@ -42,7 +42,10 @@ export class EditContactComponent implements OnInit {
 
   ngOnInit() {
     const contactId = this.route.snapshot.params['id'];
-    if (!contactId) return;
+    if (!contactId) {
+      this.subscribeToAddressChanges();
+      return;
+    }
 
     this.contactsService.getContact(contactId).subscribe(contact => {
       if (!contact) return;
@@ -53,6 +56,7 @@ export class EditContactComponent implements OnInit {
       for (let i = 1; i < contact.phones.length; i++) {
         this.addPhone();
       }
+      this.subscribeToAddressChanges();
       this.contactForm.setValue(contact);
     })
   }
@@ -97,5 +101,25 @@ export class EditContactComponent implements OnInit {
 
   addPhone() {
     this.contactForm.controls.phones.push(this.createPhoneNumberFormGroup());
+  }
+
+  subscribeToAddressChanges() {
+    const addressGroup = this.contactForm.controls.address;
+    addressGroup.valueChanges
+    .pipe(distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)))
+    .subscribe(() => {
+      for(const controlName in addressGroup.controls) {
+        addressGroup.get(controlName)?.removeValidators([Validators.required]);
+        addressGroup.get(controlName)?.updateValueAndValidity();
+      }
+    });
+    addressGroup.valueChanges
+    .pipe(debounceTime(2000), distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)))
+    .subscribe(() => {
+      for(const controlName in addressGroup.controls) {
+        addressGroup.get(controlName)?.addValidators([Validators.required]);
+        addressGroup.get(controlName)?.updateValueAndValidity();
+      }
+    });
   }
 }
