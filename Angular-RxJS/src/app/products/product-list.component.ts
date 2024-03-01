@@ -14,7 +14,6 @@ import { ProductCategoryService } from '../product-categories/product-category.s
 })
 export class ProductListComponent {
   pageTitle = 'Product List';
-  errorMessage = '';
 
   categories$ = this.productCategoryService.productCategories$;
 
@@ -22,10 +21,14 @@ export class ProductListComponent {
   // private categoryBehaviorSubject = new BehaviorSubject<number>(0);
   categorySelectedAction$ = this.categorySelectedSubject.asObservable().pipe(startWith(0));
 
+  errorSubject = new Subject<string>();
+  errorMsg$ = this.errorSubject.asObservable();
+
   products$ = combineLatest([this.productService.productsWithCategory$, this.categorySelectedAction$])
    .pipe(
 
-    map(([products, selectedCategoryId]) => products.filter(product => selectedCategoryId ? selectedCategoryId === product.categoryId : true))
+    map(([products, selectedCategoryId]) => products.filter(product => selectedCategoryId ? selectedCategoryId === product.categoryId : true)),
+      catchError(err => {this.errorSubject.next(err); return EMPTY; })
    )
 
 
