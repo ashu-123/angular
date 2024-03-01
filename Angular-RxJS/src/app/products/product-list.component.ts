@@ -24,7 +24,7 @@ export class ProductListComponent {
   errorSubject = new Subject<string>();
   errorMsg$ = this.errorSubject.asObservable();
 
-  products$ = combineLatest([this.productService.productsWithCategory$, this.categorySelectedAction$])
+  products$ = combineLatest([this.productService.productsWithAdd$, this.categorySelectedAction$])
    .pipe(
 
     map(([products, selectedCategoryId]) => products.filter(product => selectedCategoryId ? selectedCategoryId === product.categoryId : true)),
@@ -35,7 +35,7 @@ export class ProductListComponent {
   constructor(private productService: ProductService, private productCategoryService: ProductCategoryService) { }
 
   onAdd(): void {
-    console.log('Not yet implemented');
+    this.productService.addProduct();
   }
 
   onSelected(categoryId: string): void {
