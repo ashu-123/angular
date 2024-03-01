@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
-import { throwError, Observable, of, tap, concatMap } from 'rxjs';
+import { throwError, Observable, of, tap, concatMap, mergeMap, switchMap } from 'rxjs';
 import { Supplier } from './supplier';
 
 @Injectable({
@@ -11,13 +11,27 @@ export class SupplierService {
   suppliersUrl = 'api/suppliers';
 
   constructor(private http: HttpClient) { 
-    this.suppliers$.subscribe(data => console.log('concatination result'));
+    // this.suppliersWithConcatMap$.subscribe(data => console.log('concatination result of concat map', data));
+    // this.suppliersWithMergeMap$.subscribe(data => console.log('concatination result of merge map', data));
+    // this.suppliersWithSwitchMap$.subscribe(data => console.log('concatination result of switch map', data));
   }
 
-  suppliers$ = of(1, 2, 5)
+  suppliersWithConcatMap$ = of(1, 2, 5)
   .pipe(
-    tap(id => console.log('Supplier id', id)),
+    tap(id => console.log('concat map: - Supplier id', id)),
     concatMap(id => this.http.get<Supplier>(`${this.suppliersUrl}/${id}`))
+  );
+
+  suppliersWithMergeMap$ = of(1, 2, 5)
+  .pipe(
+    tap(id => console.log('merge map: - Supplier id', id)),
+    mergeMap(id => this.http.get<Supplier>(`${this.suppliersUrl}/${id}`))
+  );
+
+  suppliersWithSwitchMap$ = of(1, 2, 5)
+  .pipe(
+    tap(id => console.log('switch map: - Supplier id', id)),
+    switchMap(id => this.http.get<Supplier>(`${this.suppliersUrl}/${id}`))
   );
 
   private handleError(err: HttpErrorResponse): Observable<never> {
