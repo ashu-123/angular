@@ -43,21 +43,28 @@ export class ProductService {
       shareReplay(1)
     );
 
-    private productInsertedSubject = new Subject<Product>();
-    productInsertedAction$ = this.productInsertedSubject.asObservable();
+  selectedProductSuppliers$ = combineLatest([this.selectedProduct$, this.supplierService.suppliers$])
+    .pipe(
+      map(([selectedProduct, suppliers]) => suppliers.filter(supplier => selectedProduct?.supplierIds?.includes(supplier.id))),
+      tap(product => console.log('selected product', product)),
+      shareReplay(1)
+    );
 
-    productsWithAdd$ = merge(this.productsWithCategory$,
-      this.productInsertedAction$)
-      .pipe(
-        scan((acc, value) => 
-          (value instanceof Array) ? [...value] : [...acc, value], [] as Product[]
-        )
-      );
+  private productInsertedSubject = new Subject<Product>();
+  productInsertedAction$ = this.productInsertedSubject.asObservable();
 
-      addProduct(newProduct?: Product) {
-        newProduct = newProduct || this.fakeProduct();
-        this.productInsertedSubject.next(newProduct);
-      }
+  productsWithAdd$ = merge(this.productsWithCategory$,
+    this.productInsertedAction$)
+    .pipe(
+      scan((acc, value) =>
+        (value instanceof Array) ? [...value] : [...acc, value], [] as Product[]
+      )
+    );
+
+  addProduct(newProduct?: Product) {
+    newProduct = newProduct || this.fakeProduct();
+    this.productInsertedSubject.next(newProduct);
+  }
 
   private fakeProduct(): Product {
     return {
