@@ -1,5 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { NgModel } from '@angular/forms';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'pm-criteria',
@@ -10,7 +9,7 @@ export class CriteriaComponent implements OnInit, AfterViewInit, OnChanges {
 
   constructor() { }
 
-  listFilter: string = 'cart';
+  private _listFilter!: string;
 
   hitMessage!: string;
 
@@ -19,9 +18,18 @@ export class CriteriaComponent implements OnInit, AfterViewInit, OnChanges {
   @Input()
   hitCount:number = 0;
 
+  @Output() valuChange = new EventEmitter<string>();
+
   @ViewChild('filterElement') filterElementRef!: ElementRef;
 
-  @ViewChild(NgModel) inputElement!: NgModel;
+  get listFilter(): string {
+    return this._listFilter;
+  }
+
+  set listFilter(value: string) {
+    this._listFilter = value;
+    this.valuChange.emit(this._listFilter);
+  }
 
   ngOnInit(): void {
   }
