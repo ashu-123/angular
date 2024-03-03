@@ -4,6 +4,7 @@ import { IProduct } from './product';
 import { ProductService } from './product.service';
 import { NgModel } from '@angular/forms';
 import { CriteriaComponent } from '../shared/criteria/criteria.component';
+import { ProductParameterService } from './product-parameter.service';
 
 @Component({
   templateUrl: './product-list.component.html',
@@ -11,7 +12,6 @@ import { CriteriaComponent } from '../shared/criteria/criteria.component';
 })
 export class ProductListComponent implements OnInit, AfterViewInit {
   pageTitle = 'Product List';
-  showImage = false;
 
   includeFilter = true;
 
@@ -37,7 +37,7 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   //   this.performFilter(this.listFilter);
   // }
 
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService, private productParameterService: ProductParameterService) { }
 
   ngAfterViewInit(): void {
     this.parentListFilter = this.filterComponent.listFilter;
@@ -47,10 +47,19 @@ export class ProductListComponent implements OnInit, AfterViewInit {
     this.productService.getProducts().subscribe({
       next: products => {
         this.products = products;
-        this.performFilter(this.parentListFilter);
+        this.filterComponent.listFilter = this.productParameterService.filterBy;
+        // this.performFilter(this.parentListFilter);
       },
       error: err => this.errorMessage = err
     });
+  }
+
+  get showImage(): boolean {
+    return this.productParameterService.showImage;
+  }
+
+  set showImage(value: boolean) {
+    this.productParameterService.showImage = value;
   }
 
   toggleImage(): void {
@@ -64,6 +73,7 @@ export class ProductListComponent implements OnInit, AfterViewInit {
 
   performFilter(filterBy?: string): void {
     if (filterBy) {
+      this.productParameterService.filterBy = filterBy;
       this.filteredProducts = this.products.filter(product =>
         product.productName.toLocaleLowerCase().indexOf(filterBy.toLocaleLowerCase()) !== -1);
     } else {
