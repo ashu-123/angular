@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 
-import { catchError, Observable, of, Subject, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, of, Subject, tap, throwError } from 'rxjs';
 
 import { IProduct } from './product';
 
@@ -13,7 +13,7 @@ export class ProductService {
 
   private products!: IProduct[];
 
-  private selectedProductSource = new Subject<IProduct | null>();
+  private selectedProductSource = new BehaviorSubject<IProduct | null>(null);
   selectedProductChanges$ = this.selectedProductSource.asObservable();
 
   constructor(private http: HttpClient) { }
