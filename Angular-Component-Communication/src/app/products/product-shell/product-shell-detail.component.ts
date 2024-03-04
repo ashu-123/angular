@@ -9,8 +9,11 @@ import { IProduct } from '../product';
 export class ProductShellDetailComponent implements OnInit {
   pageTitle = 'Product Detail';
   // Need to handle null to allow for no selected product.
-  product: IProduct | null = null;  
   errorMessage = '';
+
+  get product(): IProduct | null {
+    return this.productService.currentProduct;
+  }
 
     constructor(private productService: ProductService) { }
 
