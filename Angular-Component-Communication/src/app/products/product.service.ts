@@ -11,12 +11,19 @@ import { IProduct } from './product';
 export class ProductService {
   private productsUrl = 'api/products';
 
+  private products!: IProduct[];
+
   constructor(private http: HttpClient) { }
 
   getProducts(): Observable<IProduct[]> {
+    if(this.products) {
+      return of(this.products);
+    } 
+
     return this.http.get<IProduct[]>(this.productsUrl)
       .pipe(
         tap(data => console.log(JSON.stringify(data))),
+        tap(data => this.products=data),
         catchError(this.handleError)
       );
   }
@@ -24,6 +31,11 @@ export class ProductService {
   getProduct(id: number): Observable<IProduct> {
     if (id === 0) {
       return of(this.initializeProduct());
+    }
+
+    if(this.products) {
+      const foundItem = this.products.find(item => item.id === id);
+      if(foundItem) return of(foundItem);
     }
     const url = `${this.productsUrl}/${id}`;
     return this.http.get<IProduct>(url)
@@ -57,6 +69,7 @@ export class ProductService {
     return this.http.post<IProduct>(this.productsUrl, product, { headers })
       .pipe(
         tap(createdProduct => console.log('createProduct: ' + JSON.stringify(createdProduct))),
+        tap(createdProduct => this.products.push(createdProduct)),
         catchError(this.handleError)
       );
   }

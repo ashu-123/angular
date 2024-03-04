@@ -40,6 +40,7 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   constructor(private productService: ProductService, private productParameterService: ProductParameterService) { }
 
   ngAfterViewInit(): void {
+    console.log(this.filterComponent);
     this.parentListFilter = this.filterComponent.listFilter;
   }
 
@@ -47,7 +48,7 @@ export class ProductListComponent implements OnInit, AfterViewInit {
     this.productService.getProducts().subscribe({
       next: products => {
         this.products = products;
-        this.filterComponent.listFilter = this.productParameterService.filterBy;
+        this.filterComponent!.listFilter = this.productParameterService.filterBy;
         // this.performFilter(this.parentListFilter);
       },
       error: err => this.errorMessage = err
