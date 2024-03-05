@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 import { IClass } from './class.model';
 
-import {  UserRepositoryService } from "../services/user-repository.service"
+import { UserRepositoryService } from "../services/user-repository.service"
 import { CatalogRepositoryService } from './catalog-repository.service';
 
 @Component({
@@ -45,12 +45,16 @@ export class CatalogComponent {
     }
 
     if (filter === 'GEN') {
-      this.visibleClasses = this.classes.filter(c =>
-        !c.course.courseNumber.startsWith('CH') &&
-        !c.course.courseNumber.startsWith('PO') &&
-        !c.course.courseNumber.startsWith('SP'));
+      this.showGeneralCourses();
     } else {
       this.visibleClasses = this.classes.filter(c => c.course.courseNumber.startsWith(filter));
     }
+  }
+
+  showGeneralCourses() {
+    this.visibleClasses = this.classes.filter(c =>
+      !c.course.courseNumber.startsWith('CH') &&
+      !c.course.courseNumber.startsWith('PO') &&
+      !c.course.courseNumber.startsWith('SP'));
   }
 }
