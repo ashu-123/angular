@@ -14,6 +14,8 @@ export class CatalogComponent implements OnInit {
   classes: IClass[] = [];
   visibleClasses: IClass[] = [];
 
+  orderByField: string = '';
+
   constructor(private catalogRepository: CatalogRepositoryService,
      public userRepository: UserRepositoryService,
      private filterClasses: FiltersClassService) { }
@@ -44,6 +46,12 @@ export class CatalogComponent implements OnInit {
   applyFilter(filter: string) {
     this.visibleClasses = this.filterClasses.filterClasses(filter, this.classes);
   }
+
+  mutateFirstProfessor() {
+    this.classes[0].professor = 'Lucas';
+  }
+
+  updateFirstProfessor() { }
 
   
 }
