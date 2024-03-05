@@ -4,10 +4,10 @@ import { DataRepositoryService } from "../services/data-repository"
 import { IClass } from '../services/class.model';
 
 @Component({
-  styleUrls: ['../styles/catalog.css'],
-  templateUrl: '../templates/catalog.html'
+  styleUrls: ['../styles/catalog.component.css'],
+  templateUrl: '../templates/catalog.component.html'
 })
-export class CoursesComponent {
+export class CatalogComponent {
   classes: IClass[] = [];
   visibleClasses: IClass[] = [];
 
