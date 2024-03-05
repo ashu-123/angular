@@ -3,6 +3,7 @@ import { Observable, Subject, EMPTY, throwError, timer } from 'rxjs';
 
 
 import { IUser } from './user.model';
+import { concat } from 'lodash';
 
 @Injectable()
 export class UserRepositoryService {
@@ -24,7 +25,7 @@ export class UserRepositoryService {
     if (this.currentUser.classes.includes(classId))
       return throwError(() => new Error('Already enrolled'));
 
-    this.currentUser = { ...this.currentUser, classes: this.currentUser.classes.concat(classId) }
+    this.currentUser = { ...this.currentUser, classes: concat(this.currentUser.classes ,classId) }
 
     return timer(1000);
   }
