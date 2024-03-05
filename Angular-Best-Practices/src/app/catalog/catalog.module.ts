@@ -3,6 +3,7 @@ import { CatalogComponent } from './catalog.component';
 import { SharedModule } from '../shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { CatalogRepositoryService } from './catalog-repository.service';
+import { FiltersClassService } from './filters-class.service';
 
 
 
@@ -13,6 +14,6 @@ import { CatalogRepositoryService } from './catalog-repository.service';
     SharedModule
   ],
   exports: [ ],
-  providers: [ CatalogRepositoryService ]
+  providers: [ CatalogRepositoryService, FiltersClassService ]
 })
 export class CatalogModule { }
