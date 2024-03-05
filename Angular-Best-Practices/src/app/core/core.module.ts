@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NavBarComponent } from './nav-bar.component';
 import { AccountMenuComponent } from './account-menu.component';
-import { UserRepositoryService } from '../services/user-repository.service';
+import { UserRepositoryService } from '../users/user-repository.service';
 
 
 

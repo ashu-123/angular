@@ -9,6 +9,6 @@ import { LoadingSpinnerComponent } from './loading-spinner.component';
   imports: [
     CommonModule
   ],
-  exports: [ LoadingSpinnerComponent ]
+  exports: [ LoadingSpinnerComponent, CommonModule ]
 })
 export class SharedModule { }

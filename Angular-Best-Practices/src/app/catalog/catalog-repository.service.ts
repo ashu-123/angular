@@ -3,7 +3,7 @@ import { Observable, Subject } from 'rxjs';
 
 import { IClass, ICourse } from './class.model';
 
-import { UserRepositoryService } from '../services/user-repository.service';
+import { UserRepositoryService } from '../users/user-repository.service';
 
 @Injectable()
 export class CatalogRepositoryService {

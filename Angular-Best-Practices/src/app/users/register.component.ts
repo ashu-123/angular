@@ -1,7 +1,7 @@
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { IUser } from "./user.model";
 import { Router } from "@angular/router";
-import { UserRepositoryService } from "../services/user-repository.service";
+import { UserRepositoryService } from "./user-repository.service";
 import { Component } from "@angular/core";
 
 @Component({

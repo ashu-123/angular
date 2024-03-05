@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject, EMPTY, throwError, timer } from 'rxjs';
 
 
-import { IUser } from '../users/user.model';
+import { IUser } from './user.model';
 
 @Injectable()
 export class UserRepositoryService {

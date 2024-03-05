@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 import { IClass } from './class.model';
 
-import { UserRepositoryService } from "../services/user-repository.service"
+import { UserRepositoryService } from "../users/user-repository.service"
 import { CatalogRepositoryService } from './catalog-repository.service';
 
 @Component({
