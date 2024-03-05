@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { IClass } from './class.model';
 
@@ -10,7 +10,7 @@ import { FiltersClassService } from './filters-class.service';
   styleUrls: ['./catalog.component.css'],
   templateUrl: './catalog.component.html'
 })
-export class CatalogComponent {
+export class CatalogComponent implements OnInit {
   classes: IClass[] = [];
   visibleClasses: IClass[] = [];
 
