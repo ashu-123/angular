@@ -51,7 +51,12 @@ export class CatalogComponent implements OnInit {
     this.classes[0].professor = 'Lucas';
   }
 
-  updateFirstProfessor() { }
+  updateFirstProfessor() { 
+    this.visibleClasses = [
+      { ...this.visibleClasses[0], professor: 'Lucas'},
+      ...this.visibleClasses.slice(1)
+    ]
+  }
 
   
 }
